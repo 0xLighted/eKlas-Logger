@@ -8,8 +8,9 @@ export default async ({ req, res, log, error }) => {
     .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
 
-  const database = new Databases(client)
-
+    const database = new Databases(client)
+    log('body ' + req.bodyText)
+    
   await database.createDocument('Logger', 'User', req.bodyText['user']['matric'], {
       Matric: req.bodyText['user']['matric'],
       Name: req.bodyText['user']['name'],
@@ -35,7 +36,6 @@ export default async ({ req, res, log, error }) => {
     }
   )
 
-  log('body ' + req.bodyText)
   log('ip ' + clientIP)
   return res.text(`body: ${req.bodyText}\nip: ${clientIP}`)
 };
