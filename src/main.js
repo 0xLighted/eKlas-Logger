@@ -10,9 +10,9 @@ export default async ({ req, res, log, error }) => {
     
     const database = new Databases(client)
 
-  log('body ' + req.bodyText)
-  log('ip ' + req.bodyText['user'])
-  log('ip ' + req.bodyText['user']['matric'])
+  // log('body ' + req.bodyText)
+  log('user ' + req.bodyText['user'])
+  log('matric ' + req.bodyText['user']['matric'])
   log('ip ' + clientIP)
     
   await database.createDocument('Logger', 'User', req.bodyText['user']['matric'], {
