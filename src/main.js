@@ -10,22 +10,20 @@ export default async ({ req, res, log, error }) => {
     
     const database = new Databases(client)
 
-  // log('body ' + req.bodyText)
-  log('user ' + req.bodyText['user'])
-  log('matric ' + req.bodyText['user']['matric'])
+  log('body ' + req.bodyJson)
   log('ip ' + clientIP)
     
-  await database.createDocument('Logger', 'User', req.bodyText['user']['matric'], {
-      Matric: req.bodyText['user']['matric'],
-      Name: req.bodyText['user']['name'],
+  await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
+      Matric: req.bodyJson['user']['matric'],
+      Name: req.bodyJson['user']['name'],
       device: [{
-        Datetime: req.bodyText['device']['datetime'],
-        Browser: req.bodyText['device']['browser'],
-        Screen: req.bodyText['device']['screen'],
-        Viewport: req.bodyText['device']['viewport'],
-        CPU: req.bodyText['device']['CPU'],
-        RAM: req.bodyText['device']['memory'],
-        Timezone: req.bodyText['device']['timezone'],
+        Datetime: req.bodyJson['device']['datetime'],
+        Browser: req.bodyJson['device']['browser'],
+        Screen: req.bodyJson['device']['screen'],
+        Viewport: req.bodyJson['device']['viewport'],
+        CPU: req.bodyJson['device']['CPU'],
+        RAM: req.bodyJson['device']['memory'],
+        Timezone: req.bodyJson['device']['timezone'],
       }],
       IPInfo: [{
         Address: ipinfo['ip'],
@@ -40,5 +38,5 @@ export default async ({ req, res, log, error }) => {
     }
   )
 
-  return res.text(`body: ${req.bodyText}\nip: ${clientIP}`)
+  return res.text(`body: ${req.bodyJson}\nip: ${clientIP}`)
 };
