@@ -9,8 +9,10 @@ export default async ({ req, res, log, error }) => {
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
     
     const database = new Databases(client)
-    
+
   log('body ' + req.bodyText)
+  log('ip ' + req.bodyText['user'])
+  log('ip ' + req.bodyText['user']['matric'])
   log('ip ' + clientIP)
     
   await database.createDocument('Logger', 'User', req.bodyText['user']['matric'], {
