@@ -33,7 +33,6 @@ export default async ({ req, res, log, error }) => {
         Coordinates: ipinfo['loc'],
         ISP: ipinfo['org'],
         Postal: ipinfo['postal'],
-        Timezone: ipinfo['timezone'],
       }]
     }
   )
