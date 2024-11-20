@@ -1,6 +1,9 @@
 import { Databases, Client, ID } from 'node-appwrite'
 
 export default async ({ req, res, log, error }) => {
+  if (req.method != 'POST') {
+    return res.json({success: false, message: "Method not allowed, Please send POST"})
+  }
   const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
   let ipinfo
   if (clientIP) {
