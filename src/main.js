@@ -2,10 +2,11 @@ import { Databases, Client, ID } from 'node-appwrite'
 
 export default async ({ req, res, log, error }) => {
   const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
+  let ipinfo
   if (clientIP) {
-    const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
+    ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
   } else {
-    const ipinfo = {
+    ipinfo = {
       "ip": null,
       "city": null,
       "region": null,
