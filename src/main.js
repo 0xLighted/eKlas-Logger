@@ -2,7 +2,21 @@ import { Databases, Client, ID } from 'node-appwrite'
 
 export default async ({ req, res, log, error }) => {
   const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
-  const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
+  if (clientIP) {
+    const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
+  } else {
+    const ipinfo = {
+      "ip": null,
+      "city": null,
+      "region": null,
+      "country": null,
+      "loc": null,
+      "org": null,
+      "postal": null,
+      "timezone": null,
+    }
+  }
+  log(ipinfo)
 
   const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
