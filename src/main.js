@@ -9,5 +9,5 @@ export default async ({ req, res, log, error }) => {
   // for user ip info https://ipinfo.io/{ip address}/json
   log('body ' + req.bodyText)
   log('ip ' + clientIP)
-  return res.empty()
+  return res.text(`body: ${req.bodyText}\nip: ${clientIP}`)
 };
