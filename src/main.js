@@ -7,7 +7,7 @@ export default async ({ req, res, log, error }) => {
 
   // Validate request body
   const user = [ "matric", "name" ].toString()
-  const device = [ "system", "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
+  const device = [ "_system", "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
   try {
     if (Object.keys(req.bodyJson['user']).toString() != user || Object.keys(req.bodyJson['device']).toString() != device) {
       return res.json({success: false, message: "Invalid data object"})
@@ -15,8 +15,7 @@ export default async ({ req, res, log, error }) => {
   } catch {
     return res.json({success: false, message: "Invalid data object"})
   }
-  log(req.bodyText)
-
+  
   // Grab user IP and IP details
   const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
   const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
@@ -34,7 +33,7 @@ export default async ({ req, res, log, error }) => {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
-        $id: req.bodyJson['device']['system'],
+        $id: req.bodyJson['device']['_system'],
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
         Screen: req.bodyJson['device']['screen'],
