@@ -84,7 +84,8 @@ export default async ({ req, res, log, error }) => {
     
     log("User data updated successfully");
     return res.json({success: true, message: "User data updated successfully"});
-  } catch {
+  } catch(err) {
+    log(err)
     // If user doesnt exist, the function will raise an error, and create new document with data
     userData['Devices'] = [deviceData];
     userData['IPs'] = [IPData];
