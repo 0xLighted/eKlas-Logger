@@ -71,7 +71,7 @@ export default async ({ req, res, log, error }) => {
   // IF THE DOCUMENT ALREADY EXIST, NO NEED TO WRITE ANYTHING
   // DO A CHECK TO SEE IF THAT DOCUMENT ALREADY EXIST
   // THEN POSSIBLY APPEND IT TO THE USER DOCUMENT
-  await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'].replaceAll(' ', '-'), userData)
+  // await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'].replaceAll(' ', '-'), userData)
 
   return res.json({success: true, message: "Data stored successfully"})
 };
