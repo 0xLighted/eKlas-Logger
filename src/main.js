@@ -65,7 +65,12 @@ export default async ({ req, res, log, error }) => {
   //     }]
   // }
 
-  const doc = await database.getDocument('Logger', 'Device', req.bodyJson['device']['system'].replaceAll(' ', '-'))
+  let doc
+  try {
+    doc = await database.getDocument('Logger', 'Device', req.bodyJson['device']['system'].replaceAll(' ', '-'))
+  } catch (error) {
+    doc = null
+  }
   log(doc)
 
   // IF THE DOCUMENT ALREADY EXIST, NO NEED TO WRITE ANYTHING
