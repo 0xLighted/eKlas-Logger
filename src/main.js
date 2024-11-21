@@ -54,8 +54,6 @@ export default async ({ req, res, log, error }) => {
   // IF THE DOCUMENT ALREADY EXIST, NO NEED TO WRITE ANYTHING
   // DO A CHECK TO SEE IF THAT DOCUMENT ALREADY EXIST
   // THEN POSSIBLY APPEND IT TO THE USER DOCUMENT
-  log(typeof req.bodyJson['device']['system'].replaceAll(' ', '-'))
-  log(typeof ipinfo['ip'])
   await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
@@ -71,7 +69,7 @@ export default async ({ req, res, log, error }) => {
         Timezone: req.bodyJson['device']['timezone'],
       }],
       IPInfo: [{
-        $id: 'Animal',
+        $id: 'Pineapple',
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
         City: ipinfo['city'],
