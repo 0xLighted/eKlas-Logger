@@ -54,8 +54,12 @@ export default async ({ req, res, log, error }) => {
   await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
-      device: [deviceDoc],
-      IPInfo: [IPDoc]
+      device: [{
+        $id: req.bodyJson['device']['system'].replaceAll(' ', '-')
+      }],
+      IPInfo: [{
+        $id: ipinfo['ip']
+      }]
     }
   )
 
