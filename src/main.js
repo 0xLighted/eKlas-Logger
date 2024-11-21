@@ -55,7 +55,7 @@ export default async ({ req, res, log, error }) => {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
-        $id: 'banana',
+        $id: req.bodyJson['device']['system'].replaceAll(' ', '-'),
         System: req.bodyJson['device']['system'],
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
@@ -66,7 +66,7 @@ export default async ({ req, res, log, error }) => {
         Timezone: req.bodyJson['device']['timezone'],
       }],
       IPInfo: [{
-        $id: 'apple',
+        $id: ipinfo['ip'],
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
         City: ipinfo['city'],
