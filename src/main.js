@@ -7,7 +7,7 @@ export default async ({ req, res, log, error }) => {
 
   // Validate request body
   const user = [ "matric", "name" ].toString()
-  const device = [ "OS", "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
+  const device = [ "system", "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
   try {
     if (Object.keys(req.bodyJson['user']).toString() != user || Object.keys(req.bodyJson['device']).toString() != device) {
       return res.json({success: false, message: "Invalid data object"})
@@ -25,10 +25,7 @@ export default async ({ req, res, log, error }) => {
   // Appwrite project
   const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
-    .setProject(process.env.PROJECT_ID);
-
-  log(client)
-  log(process.env.PROJECT_ID)
+    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
   
   // Connect to database and create new document
   const database = new Databases(client)
@@ -36,7 +33,7 @@ export default async ({ req, res, log, error }) => {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
-        $id: req.bodyJson['device']['OS'],
+        $id: req.bodyJson['device']['system'],
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
         Screen: req.bodyJson['device']['screen'],
