@@ -91,8 +91,11 @@ export default async ({ req, res, log, error }) => {
     
     if (updated > 0) {
       log("User data updated successfully");
-    } else { log("All user data up to date"); }
-    return res.json({success: true, message: "User data updated successfully"});
+      return res.json({success: true, message: "User data updated successfully"});
+    } else {
+      log("All user data up to date");
+      return res.json({success: true, message: "All user data up to date"});
+    }
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
