@@ -1,9 +1,17 @@
-import { Databases, Client, ID } from 'node-appwrite'
+import { Databases, Client } from 'node-appwrite'
 
 export default async ({ req, res, log, error }) => {
   if (req.method != 'POST') {
     return res.json({success: false, message: "Method not allowed, Please send POST"})
   }
+
+  // Validate request body
+  const user = [ "matric", "name" ].toString()
+  const device = [ "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
+  if (req.bodyJson['user'].toString() != user || req.bodyJson['device'].toString() != device) {
+    return res.json({success: false, message: "Invalid data object"})
+  }
+
   const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
   let ipinfo
   if (clientIP) {
@@ -16,8 +24,7 @@ export default async ({ req, res, log, error }) => {
       "country": null,
       "loc": null,
       "org": null,
-      "postal": null,
-      "timezone": null,
+      "postal": null
     }
   }
   log(ipinfo)
@@ -34,7 +41,7 @@ export default async ({ req, res, log, error }) => {
   await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
-      device: [{
+      device: {
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
         Screen: req.bodyJson['device']['screen'],
@@ -42,8 +49,9 @@ export default async ({ req, res, log, error }) => {
         CPU: req.bodyJson['device']['CPU'],
         RAM: req.bodyJson['device']['memory'],
         Timezone: req.bodyJson['device']['timezone'],
-      }],
-      IPInfo: [{
+      },
+      IPInfo: {
+        $id: ipinfo['ip'],
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
         City: ipinfo['city'],
@@ -51,7 +59,7 @@ export default async ({ req, res, log, error }) => {
         Coordinates: ipinfo['loc'],
         ISP: ipinfo['org'],
         Postal: ipinfo['postal'],
-      }]
+      }
     }
   )
 
