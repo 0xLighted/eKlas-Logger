@@ -35,6 +35,7 @@ export default async ({ req, res, log, error }) => {
       device: [{
         $id: req.bodyJson['device']['_system'],
         Datetime: req.bodyJson['device']['datetime'],
+        System: req.bodyJson['device']['_system'],
         Browser: req.bodyJson['device']['browser'],
         Screen: req.bodyJson['device']['screen'],
         Viewport: req.bodyJson['device']['viewport'],
