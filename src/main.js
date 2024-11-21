@@ -29,36 +29,36 @@ export default async ({ req, res, log, error }) => {
   
   // Connect to database and create new document
   const database = new Databases(client)
-  const deviceDoc = await database.createDocument('Logger', 'Device', req.bodyJson['device']['system'], {
-    System: req.bodyJson['device']['system'],
-    Datetime: req.bodyJson['device']['datetime'],
-    Browser: req.bodyJson['device']['browser'],
-    Screen: req.bodyJson['device']['screen'],
-    Viewport: req.bodyJson['device']['viewport'],
-    CPU: req.bodyJson['device']['CPU'],
-    RAM: req.bodyJson['device']['memory'],
-    Timezone: req.bodyJson['device']['timezone'],
-  })
+  // const deviceDoc = await database.createDocument('Logger', 'Device', req.bodyJson['device']['system'], {
+  //   System: req.bodyJson['device']['system'],
+  //   Datetime: req.bodyJson['device']['datetime'],
+  //   Browser: req.bodyJson['device']['browser'],
+  //   Screen: req.bodyJson['device']['screen'],
+  //   Viewport: req.bodyJson['device']['viewport'],
+  //   CPU: req.bodyJson['device']['CPU'],
+  //   RAM: req.bodyJson['device']['memory'],
+  //   Timezone: req.bodyJson['device']['timezone'],
+  // })
 
-  const IPDoc = await database.createDocument('Logger', 'IP-Info', ipinfo['ip'], {
-    Address: ipinfo['ip'],
-    Country: ipinfo['country'],
-    City: ipinfo['city'],
-    Region: ipinfo['region'],
-    Coordinates: ipinfo['loc'],
-    ISP: ipinfo['org'],
-    Postal: ipinfo['postal'],
-    Hostname: ipinfo['hostname']
-  })
+  // const IPDoc = await database.createDocument('Logger', 'IP-Info', ipinfo['ip'], {
+  //   Address: ipinfo['ip'],
+  //   Country: ipinfo['country'],
+  //   City: ipinfo['city'],
+  //   Region: ipinfo['region'],
+  //   Coordinates: ipinfo['loc'],
+  //   ISP: ipinfo['org'],
+  //   Postal: ipinfo['postal'],
+  //   Hostname: ipinfo['hostname']
+  // })
 
   await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
-        $id: req.bodyJson['device']['system'].replaceAll(' ', '-')
+        $id: 'test'
       }],
       IPInfo: [{
-        $id: ipinfo['ip']
+        $id: 'pls'
       }]
     }
   )
