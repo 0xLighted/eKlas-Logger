@@ -26,6 +26,9 @@ export default async ({ req, res, log, error }) => {
   const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject(process.env.PROJECT_ID);
+
+  log(client)
+  log(process.env.PROJECT_ID)
   
   // Connect to database and create new document
   const database = new Databases(client)
