@@ -34,13 +34,16 @@ export default async ({ req, res, log, error }) => {
   // Grab user IP and IP details
   const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
   const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json());
+  const sanitizedMatric = req.bodyJson['user']['matric']
+    .trim()
+    .replaceAll(' ', '_')
+    .slice(0, 36);
 
   const userData = {
     Matric: req.bodyJson['user']['matric'],
     Name: req.bodyJson['user']['name'],
   }
   const deviceData = {
-    $id: `${req.bodyJson['user']['matric']}-${req.bodyJson['device']['system'].replaceAll(' ', '-')}`,
     System: req.bodyJson['device']['system'],
     Datetime: req.bodyJson['device']['datetime'],
     Browser: req.bodyJson['device']['browser'],
@@ -51,7 +54,6 @@ export default async ({ req, res, log, error }) => {
     Timezone: req.bodyJson['device']['timezone'],
   }
   const IPData = {
-    $id: `${req.bodyJson['user']['matric']}-${ipinfo['ip'].replaceAll('.', '_')}`,
     Address: ipinfo['ip'],
     Country: ipinfo['country'],
     City: ipinfo['city'],
@@ -64,19 +66,19 @@ export default async ({ req, res, log, error }) => {
   
   // Create or update user document
   try {
-    const userDoc = await database.getDocument('Logger', 'User', req.bodyJson['user']['matric'].replaceAll(' ', '-'));
+    const userDoc = await database.getDocument('Logger', 'User', sanitizedMatric);
 
     // Check if Device already registered, if not append new Device to user document
     if (userDoc['Devices'].filter(device => device.System === req.bodyJson['device']['system']).length == 0) {
-      await database.updateDocument('logger', 'User', {
+      await database.updateDocument('logger', 'User', sanitizedMatric, {
         Devices: [...userDoc['Devices'], deviceData]
       })
-      log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '-')}" successfully registered`)
-    } else { log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '-')}" already registered`) }
+      log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '_')}" successfully registered`)
+    } else { log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '_')}" already registered`) }
 
     // Check if IP already registered, if not append new IP to user document
     if (userDoc['IPs'].filter(ip => ip.address === ipinfo['ip']).length == 0) {
-      await database.updateDocument('logger', 'User', {
+      await database.updateDocument('logger', 'User', sanitizedMatric, {
         IPs: [...userDoc['IPs'], IPData]
       })
       log(`User IP "${ipinfo['ip']}" successfully registered`)
@@ -85,12 +87,12 @@ export default async ({ req, res, log, error }) => {
     log("User data updated successfully");
     return res.json({success: true, message: "User data updated successfully"});
   } catch(err) {
-    log(req.bodyJson['user']['matric'].replaceAll(' ', '-')) 
+    log(sanitizedMatric) 
     log(err) 
     // If user doesnt exist, the function will raise an error, and create new document with data
     userData['Devices'] = [deviceData];
     userData['IPs'] = [IPData];
-    await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'].replaceAll(' ', '-'), userData);
+    await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
     log("New user added successfully");
     return res.json({success: true, message: "New user added successfully"});
