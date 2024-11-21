@@ -17,8 +17,8 @@ export default async ({ req, res, log, error }) => {
   }
 
   // Grab user IP and IP details
-  const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',') : req.socket.remoteAddress;
-  const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP[0]}/json`)).json())
+  const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
+  const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
   log(ipinfo)
   log('ip ' + clientIP)
 
@@ -51,6 +51,7 @@ export default async ({ req, res, log, error }) => {
         Coordinates: ipinfo['loc'],
         ISP: ipinfo['org'],
         Postal: ipinfo['postal'],
+        Hostname: ipinfo['hostname']
       }]
     }
   )
