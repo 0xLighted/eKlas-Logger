@@ -33,7 +33,7 @@ export default async ({ req, res, log, error }) => {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
-        "$id": req.bodyJson['device']['_system'],
+        "$id": "fffff",
         Datetime: req.bodyJson['device']['datetime'],
         System: req.bodyJson['device']['_system'],
         Browser: req.bodyJson['device']['browser'],
@@ -44,7 +44,7 @@ export default async ({ req, res, log, error }) => {
         Timezone: req.bodyJson['device']['timezone'],
       }],
       IPInfo: [{
-        "$id": ipinfo['ip'],
+        "$id": "eeeee",
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
         City: ipinfo['city'],
