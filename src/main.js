@@ -15,6 +15,7 @@ export default async ({ req, res, log, error }) => {
   } catch {
     return res.json({success: false, message: "Invalid data object"})
   }
+  log(req.bodyText)
 
   // Grab user IP and IP details
   const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
