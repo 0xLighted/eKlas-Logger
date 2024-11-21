@@ -69,7 +69,7 @@ export default async ({ req, res, log, error }) => {
     const userDoc = await database.getDocument('Logger', 'User', sanitizedMatric);
 
     // Check if Device already registered, if not append new Device to user document
-    if (userDoc['Devices'].filter(device => device.System === req.bodyJson['device']['system']).length == 0) {
+    if (userDoc['Devices'].filter(device => device['System'] === req.bodyJson['device']['system']).length == 0) {
       await database.updateDocument('logger', 'User', sanitizedMatric, {
         Devices: [...userDoc['Devices'], deviceData]
       })
@@ -77,7 +77,7 @@ export default async ({ req, res, log, error }) => {
     } else { log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '_')}" already registered`) }
 
     // Check if IP already registered, if not append new IP to user document
-    if (userDoc['IPs'].filter(ip => ip.address === ipinfo['ip']).length == 0) {
+    if (userDoc['IPs'].filter(ip => ip['Address'] === ipinfo['ip']).length == 0) {
       await database.updateDocument('logger', 'User', sanitizedMatric, {
         IPs: [...userDoc['IPs'], IPData]
       })
@@ -87,8 +87,6 @@ export default async ({ req, res, log, error }) => {
     log("User data updated successfully");
     return res.json({success: true, message: "User data updated successfully"});
   } catch(err) {
-    log(sanitizedMatric) 
-    log(err) 
     // If user doesnt exist, the function will raise an error, and create new document with data
     userData['Devices'] = [deviceData];
     userData['IPs'] = [IPData];
