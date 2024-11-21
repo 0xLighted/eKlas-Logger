@@ -7,7 +7,7 @@ export default async ({ req, res, log, error }) => {
 
   // Validate request body
   const user = [ "matric", "name" ].toString()
-  const device = [ "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
+  const device = [ "OS", "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
   try {
     if (Object.keys(req.bodyJson['user']).toString() != user || Object.keys(req.bodyJson['device']).toString() != device) {
       return res.json({success: false, message: "Invalid data object"})
@@ -16,36 +16,24 @@ export default async ({ req, res, log, error }) => {
     return res.json({success: false, message: "Invalid data object"})
   }
 
-  const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
-  let ipinfo
-  if (clientIP) {
-    ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
-  } else {
-    ipinfo = {
-      "ip": null,
-      "city": null,
-      "region": null,
-      "country": null,
-      "loc": null,
-      "org": null,
-      "postal": null
-    }
-  }
+  // Grab user IP and IP details
+  const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',') : req.socket.remoteAddress;
+  const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP[0]}/json`)).json())
   log(ipinfo)
+  log('ip ' + clientIP)
 
+  // Appwrite project
   const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
-    
-    const database = new Databases(client)
-
-  log('body ' + req.bodyJson)
-  log('ip ' + clientIP)
-    
+  
+  // Connect to database and create new document
+  const database = new Databases(client)
   await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
+        $id: req.bodyJson['device']['OS'],
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
         Screen: req.bodyJson['device']['screen'],
@@ -67,5 +55,5 @@ export default async ({ req, res, log, error }) => {
     }
   )
 
-  return res.text(`body: ${req.bodyJson}\nip: ${clientIP}`)
+  return res.json({success: true, message: "Data stored successfully"})
 };
