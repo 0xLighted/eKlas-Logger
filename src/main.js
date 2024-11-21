@@ -71,7 +71,7 @@ export default async ({ req, res, log, error }) => {
         Timezone: req.bodyJson['device']['timezone'],
       }],
       IPInfo: [{
-        $id: '64.227.21.251',
+        $id: 'Animal',
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
         City: ipinfo['city'],
