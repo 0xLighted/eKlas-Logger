@@ -8,7 +8,11 @@ export default async ({ req, res, log, error }) => {
   // Validate request body
   const user = [ "matric", "name" ].toString()
   const device = [ "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
-  if (req.bodyJson['user'].toString() != user || req.bodyJson['device'].toString() != device) {
+  try {
+    if (Object.keys(req.bodyJson['user']).toString() != user || Object.keys(req.bodyJson['device']).toString() != device) {
+      return res.json({success: false, message: "Invalid data object"})
+    }
+  } catch {
     return res.json({success: false, message: "Invalid data object"})
   }
 
