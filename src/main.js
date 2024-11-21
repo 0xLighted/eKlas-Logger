@@ -30,39 +30,39 @@ export default async ({ req, res, log, error }) => {
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
     
   const database = new Databases(client)
-  
+
   // Grab user IP and IP details
   // const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
   // const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json())
   // log(ipinfo)
   // log('ip ' + clientIP)
 
-  const userData = {
-    Matric: req.bodyJson['user']['matric'],
-    Name: req.bodyJson['user']['name'],
-  }
-  const deviceData = {
-    $id: req.bodyJson['device']['system'].replaceAll(' ', '-'),
-    System: req.bodyJson['device']['system'],
-    Datetime: req.bodyJson['device']['datetime'],
-    Browser: req.bodyJson['device']['browser'],
-    Screen: req.bodyJson['device']['screen'],
-    Viewport: req.bodyJson['device']['viewport'],
-    CPU: req.bodyJson['device']['CPU'],
-    RAM: req.bodyJson['device']['memory'],
-    Timezone: req.bodyJson['device']['timezone'],
-  }
-  const IPData = {
-    $id: ipinfo['ip'].replaceAll('.', '_'),
-    Address: ipinfo['ip'],
-    Country: ipinfo['country'],
-    City: ipinfo['city'],
-    Region: ipinfo['region'],
-    Coordinates: ipinfo['loc'],
-    ISP: ipinfo['org'],
-    Postal: ipinfo['postal'],
-    Hostname: ipinfo['hostname']
-  } 
+  // const userData = {
+  //   Matric: req.bodyJson['user']['matric'],
+  //   Name: req.bodyJson['user']['name'],
+  // }
+  // const deviceData = {
+  //   $id: req.bodyJson['device']['system'].replaceAll(' ', '-'),
+  //   System: req.bodyJson['device']['system'],
+  //   Datetime: req.bodyJson['device']['datetime'],
+  //   Browser: req.bodyJson['device']['browser'],
+  //   Screen: req.bodyJson['device']['screen'],
+  //   Viewport: req.bodyJson['device']['viewport'],
+  //   CPU: req.bodyJson['device']['CPU'],
+  //   RAM: req.bodyJson['device']['memory'],
+  //   Timezone: req.bodyJson['device']['timezone'],
+  // }
+  // const IPData = {
+  //   $id: ipinfo['ip'].replaceAll('.', '_'),
+  //   Address: ipinfo['ip'],
+  //   Country: ipinfo['country'],
+  //   City: ipinfo['city'],
+  //   Region: ipinfo['region'],
+  //   Coordinates: ipinfo['loc'],
+  //   ISP: ipinfo['org'],
+  //   Postal: ipinfo['postal'],
+  //   Hostname: ipinfo['hostname']
+  // } 
   
   // try {
   //   await database.getDocument('Logger', 'User', req.bodyJson['user']['matric'].replaceAll(' ', '-'))
