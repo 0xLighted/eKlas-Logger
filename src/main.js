@@ -7,7 +7,7 @@ export default async ({ req, res, log, error }) => {
 
   // Validate request body
   const user = [ "matric", "name" ].toString()
-  const device = [ "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
+  const device = [ "_system", "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
   try {
     if (Object.keys(req.bodyJson['user']).toString() != user || Object.keys(req.bodyJson['device']).toString() != device) {
       return res.json({success: false, message: "Invalid data object"})
@@ -33,7 +33,9 @@ export default async ({ req, res, log, error }) => {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
+        $id: req.bodyJson['device']['_system'],
         Datetime: req.bodyJson['device']['datetime'],
+        System: req.bodyJson['device']['_system'],
         Browser: req.bodyJson['device']['browser'],
         Screen: req.bodyJson['device']['screen'],
         Viewport: req.bodyJson['device']['viewport'],
@@ -42,6 +44,7 @@ export default async ({ req, res, log, error }) => {
         Timezone: req.bodyJson['device']['timezone'],
       }],
       IPInfo: [{
+        $id: ipinfo['ip'],
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
         City: ipinfo['city'],
