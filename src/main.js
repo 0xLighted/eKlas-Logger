@@ -45,7 +45,7 @@ export default async ({ req, res, log, error }) => {
   await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
-      device: {
+      device: [{
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
         Screen: req.bodyJson['device']['screen'],
@@ -53,8 +53,8 @@ export default async ({ req, res, log, error }) => {
         CPU: req.bodyJson['device']['CPU'],
         RAM: req.bodyJson['device']['memory'],
         Timezone: req.bodyJson['device']['timezone'],
-      },
-      IPInfo: {
+      }],
+      IPInfo: [{
         $id: ipinfo['ip'],
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
@@ -63,7 +63,7 @@ export default async ({ req, res, log, error }) => {
         Coordinates: ipinfo['loc'],
         ISP: ipinfo['org'],
         Postal: ipinfo['postal'],
-      }
+      }]
     }
   )
 
