@@ -42,7 +42,6 @@ export default async ({ req, res, log, error }) => {
         Timezone: req.bodyJson['device']['timezone'],
       }],
       IPInfo: [{
-        $id: ipinfo['ip'],
         Address: ipinfo['ip'],
         Country: ipinfo['country'],
         City: ipinfo['city'],
