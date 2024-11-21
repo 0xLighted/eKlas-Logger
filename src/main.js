@@ -60,7 +60,7 @@ export default async ({ req, res, log, error }) => {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
-        $id: 'Human',
+        $id: req.bodyJson['device']['system'].replaceAll(' ', '-'),
         System: req.bodyJson['device']['system'],
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
