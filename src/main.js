@@ -51,11 +51,16 @@ export default async ({ req, res, log, error }) => {
   //   Hostname: ipinfo['hostname']
   // })
 
+  // IF THE DOCUMENT ALREADY EXIST, NO NEED TO WRITE ANYTHING
+  // DO A CHECK TO SEE IF THAT DOCUMENT ALREADY EXIST
+  // THEN POSSIBLY APPEND IT TO THE USER DOCUMENT
+  log(req.bodyJson['device']['system'].replaceAll(' ', '-'))
+  log(ipinfo['ip'])
   await database.createDocument('Logger', 'User', req.bodyJson['user']['matric'], {
       Matric: req.bodyJson['user']['matric'],
       Name: req.bodyJson['user']['name'],
       device: [{
-        $id: req.bodyJson['device']['system'].replaceAll(' ', '-'),
+        $id: (req.bodyJson['device']['system'].replaceAll(' ', '-')),
         System: req.bodyJson['device']['system'],
         Datetime: req.bodyJson['device']['datetime'],
         Browser: req.bodyJson['device']['browser'],
