@@ -92,8 +92,8 @@ export default async ({ req, res, log, error }) => {
       log(`User IP "${ipinfo['ip']}" successfully registered`);
     } else { log(`User IP "${ipinfo['ip']}" already registered`); }
     
-    log("User data updated successfully");
-    return res.json({success: true, message: "User data updated successfully"});
+    log(`User ${sanitizedMatric} updated successfully`);
+    return res.json({success: true, message: `User ${sanitizedMatric} updated successfully`});
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
