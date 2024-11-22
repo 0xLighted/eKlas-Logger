@@ -18,8 +18,8 @@ function getDeviceInfo() {
         "browser": navigator.userAgent,
         "screen": `${window.screen.width}x${window.screen.height}`,
         "viewport": `${window.innerWidth}x${window.innerHeight}`,
-        "CPU": navigator.hardwareConcurrency || -1,
-        "memory": navigator.deviceMemory || -1,
+        "CPU": navigator.hardwareConcurrency || 0,
+        "memory": navigator.deviceMemory || 0,
         "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
         "system": navigator.userAgentData ? navigator.userAgentData.platform : navigator.platform,
     };
