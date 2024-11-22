@@ -131,6 +131,3 @@ dist
 
 # Directory used by Appwrite CLI for local development
 .appwrite
-
-# Python virtual environment for test server
-.venv
