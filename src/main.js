@@ -14,13 +14,13 @@ function validateBody(bodyJson) {
 
 
 export default async ({ req, res, log, error }) => {
-  if (req.method != 'POST') {
+  if (req.method != 'POST' || req.path != '/') {
     error('Method not allowed: ' + req.method);
     return res.json({success: false, message: "Method not allowed, Please send POST"});
   }
 
   if (!validateBody(req.bodyJson)) {
-    error('Invalid data object: ' + req.bodyText());
+    error('Invalid data object: ' + req.bodyText);
     return res.json({success: false, message: "Invalid data object"});
   }
 
