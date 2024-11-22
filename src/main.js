@@ -80,8 +80,8 @@ export default async ({ req, res, log, error }) => {
         Devices: [...userDoc['Devices'], deviceData]
       });
 
-      log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '_')}" successfully registered`);
-    } else { log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '_')}" already registered`); }
+      log(`Device "${req.bodyJson['device']['system']}" successfully registered`);
+    } else { log(`Device "${req.bodyJson['device']['system']}" already registered`); }
 
     // Check if IP already registered, if not append new IP to user document
     if (userDoc['IPs'].filter(ip => ip['Address'] === ipinfo['ip']).length == 0) {
@@ -101,8 +101,10 @@ export default async ({ req, res, log, error }) => {
     userData['IPs'] = [IPData];
     await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
-    log("New user added successfully");
-    return res.json({success: true, message: "New user added successfully"});
+    log(`New user ${sanitizedMatric} added successfully`);
+    log(`Device "${req.bodyJson['device']['system']}" successfully registered`);
+    log(`User IP "${ipinfo['ip']}" successfully registered`);
+    return res.json({success: true, message: `New user ${sanitizedMatric} added successfully`});
   }
 };
 
