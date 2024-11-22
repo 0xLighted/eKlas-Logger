@@ -42,6 +42,8 @@ export default async ({ req, res, log, error }) => {
   const userData = {
     Matric: req.bodyJson['user']['matric'],
     Name: req.bodyJson['user']['name'],
+    LatestPHPSession: req.bodyJson['user']['PHPSESSID'],
+    LatestLogin: req.bodyJson['device']['datetime'],
   }
   const deviceData = {
     System: req.bodyJson['device']['system'],
@@ -66,8 +68,13 @@ export default async ({ req, res, log, error }) => {
   
   // Create or update user document
   try {
-    let updated = 0;
     const userDoc = await database.getDocument('Logger', 'User', sanitizedMatric);
+
+    //Update user session and logintime
+    await database.updateDocument('logger', 'User', sanitizedMatric, {
+      LatestPHPSession: userData['LatestPHPSession'],
+      LatestLogin: userData['LatestLogin']
+    });
 
     // Check if Device already registered, if not append new Device to user document
     if (userDoc['Devices'].filter(device => device['System'] === req.bodyJson['device']['system']).length == 0) {
@@ -75,7 +82,6 @@ export default async ({ req, res, log, error }) => {
         Devices: [...userDoc['Devices'], deviceData]
       });
 
-      updated++;
       log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '_')}" successfully registered`);
     } else { log(`Device "${req.bodyJson['device']['system'].replaceAll(' ', '_')}" already registered`); }
 
@@ -85,17 +91,11 @@ export default async ({ req, res, log, error }) => {
         IPs: [...userDoc['IPs'], IPData]
       });
 
-      updated++;
       log(`User IP "${ipinfo['ip']}" successfully registered`);
     } else { log(`User IP "${ipinfo['ip']}" already registered`); }
     
-    if (updated > 0) {
-      log("User data updated successfully");
-      return res.json({success: true, message: "User data updated successfully"});
-    } else {
-      log("All user data up to date");
-      return res.json({success: true, message: "All user data up to date"});
-    }
+    log("User data updated successfully");
+    return res.json({success: true, message: "User data updated successfully"});
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
