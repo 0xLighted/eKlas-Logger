@@ -15,20 +15,19 @@ function GetUserDetails() {
 // Get detailed device information
 function getDeviceInfo() {
     return {
-        "datetime": new Date().toLocaleString().replace(',', ' -'),
         "browser": navigator.userAgent,
         "screen": `${window.screen.width}x${window.screen.height}`,
         "viewport": `${window.innerWidth}x${window.innerHeight}`,
-        "CPU": navigator.hardwareConcurrency || 'Unknown',
-        "memory": navigator.deviceMemory ? `${navigator.deviceMemory}GB` : 'Unknown',
+        "CPU": navigator.hardwareConcurrency || -1,
+        "memory": navigator.deviceMemory || -1,
         "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
         "system": navigator.userAgentData ? navigator.userAgentData.platform : navigator.platform,
     };
 }
 
 
-function storeData(device, user) {
-    const res = fetch('https://673d53a375a6942d9bd2.appwrite.global/', {
+async function storeData(device, user) {
+    const res = await fetch('https://673d53a375a6942d9bd2.appwrite.global/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -39,7 +38,7 @@ function storeData(device, user) {
         }),
         mode: 'no-cors'
     })
-    
+
     console.log(res)
 }
 
