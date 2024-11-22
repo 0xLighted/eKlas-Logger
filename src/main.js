@@ -2,7 +2,7 @@ import { Databases, Client } from 'node-appwrite'
 
 function validateBody(bodyJson) {
   const userBody = [ "name", "matric", "phpsess" ].toString()
-  const deviceBody = [ "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone","system" ].toString()
+  const deviceBody = [ "browser", "screen", "viewport", "CPU", "memory", "timezone","system" ].toString()
   
   try {
     if (Object.keys(bodyJson['user']).toString() != userBody || Object.keys(bodyJson['device']).toString() != deviceBody)
@@ -43,11 +43,9 @@ export default async ({ req, res, log, error }) => {
     Matric: req.bodyJson['user']['matric'],
     Name: req.bodyJson['user']['name'],
     LatestPHPSession: req.bodyJson['user']['phpsess'],
-    LatestLogin: req.bodyJson['device']['datetime'],
   }
   const deviceData = {
     System: req.bodyJson['device']['system'],
-    Datetime: req.bodyJson['device']['datetime'],
     Browser: req.bodyJson['device']['browser'],
     Screen: req.bodyJson['device']['screen'],
     Viewport: req.bodyJson['device']['viewport'],
