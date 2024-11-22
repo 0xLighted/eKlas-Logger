@@ -1,8 +1,8 @@
 import { Databases, Client } from 'node-appwrite'
 
 function validateBody(bodyJson) {
-  const userBody = [ "matric", "name" ].toString()
-  const deviceBody = [ "system", "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone" ].toString()
+  const userBody = [ "matric", "name", "phpsess" ].toString()
+  const deviceBody = [ "datetime", "browser", "screen", "viewport", "CPU", "memory", "timezone","system" ].toString()
   
   try {
     if (Object.keys(bodyJson['user']).toString() != userBody || Object.keys(bodyJson['device']).toString() != deviceBody)
@@ -42,7 +42,7 @@ export default async ({ req, res, log, error }) => {
   const userData = {
     Matric: req.bodyJson['user']['matric'],
     Name: req.bodyJson['user']['name'],
-    LatestPHPSession: req.bodyJson['user']['PHPSESSID'],
+    LatestPHPSession: req.bodyJson['user']['phpsess'],
     LatestLogin: req.bodyJson['device']['datetime'],
   }
   const deviceData = {
@@ -107,3 +107,5 @@ export default async ({ req, res, log, error }) => {
     return res.json({success: true, message: "New user added successfully"});
   }
 };
+
+// TODO: ADD METHOD TO SEND DATA TO DISCORD TOO AS A NOTIFICATAION SYSTEM
