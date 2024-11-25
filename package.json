@@ -5,7 +5,8 @@
   "main": "functions/display.js",
   "type": "module",
   "scripts": {
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "build": "rollup -c"
   },
   "dependencies": {
     "react": "^18.2.0",
