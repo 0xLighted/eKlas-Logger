@@ -1,5 +1,5 @@
 export default ({ req, res, log, error }) => {
-    if (req.method != 'GET' || req.path != '/') {
+    if (req.method != 'GET') {
         error('Method not allowed: ' + req.method);
         return res.json({success: false, message: "Method not allowed, Please send GET"});
       }
