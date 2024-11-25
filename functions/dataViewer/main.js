@@ -26,7 +26,7 @@ export default async ({ req, res, log, error }) => {
 </head>
 <body>
     <div id="root"></div>
-    <script src="bundle.js"></script>
+    <script src="dist/bundle.js"></script>
     <script>
         renderApp({
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
