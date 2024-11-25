@@ -1,5 +1,31 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
+
+function getFileStructure(dirPath, prefix = '') {
+    let structure = '';
+
+    try {
+        const items = fs.readdirSync(dirPath, { withFileTypes: true });
+
+        items.forEach((item, index) => {
+            const isLast = index === items.length - 1;
+            const newPrefix = `${prefix}${isLast ? '    ' : '|   '}`;
+            const icon = isLast ? '└─ ' : '|─ ';
+
+            structure += `${prefix}${icon}${item.name}\n`;
+
+            if (item.isDirectory()) {
+                const subDirPath = path.join(dirPath, item.name);
+                structure += getFileStructure(subDirPath, newPrefix);
+            }
+        });
+    } catch (error) {
+        console.error(`Error reading directory: ${dirPath}\n`, error);
+    }
+
+    return structure;
+}
+
 export default async ({ req, res, log, error }) => {
     // Handle bundle.js request
     if (req.path === 'dist/bundle.js') {
@@ -14,8 +40,7 @@ export default async ({ req, res, log, error }) => {
             return res.text('Error loading bundle', 500);
         }
     }
-    var files = fs.readdirSync('/');
-    log(files)
+    console.log(getFileStructure('.'));
 
     const html = `
 <!DOCTYPE html>
