@@ -20,7 +20,7 @@ function getFileStructure(dirPath, prefix = '') {
             }
         });
     } catch (error) {
-        console.error(`Error reading directory: ${dirPath}\n`, error);
+        error(`Error reading directory: ${dirPath}\n`, error);
     }
 
     return structure;
@@ -28,19 +28,19 @@ function getFileStructure(dirPath, prefix = '') {
 
 export default async ({ req, res, log, error }) => {
     // Handle bundle.js request
-    if (req.path === 'dist/bundle.js') {
+    if (req.path === '/dist/bundle.js') {
         try {
-            const bundleContent = fs.readFileSync(path.join(__dirname, 'dist', 'bundle.js'), 'utf8');
-            log('worked?')
+            const bundleContent = fs.readFileSync('./src/function/dist/bundle.js', 'utf8');
+            log(bundleContent)
             return res.text(bundleContent, 200, {
                 'Content-Type': 'application/javascript'
             });
         } catch (err) {
-            log(err);
+            error(err);
             return res.text('Error loading bundle', 500);
         }
     }
-    console.log(getFileStructure('.'));
+    log(getFileStructure('.'));
 
     const html = `
 <!DOCTYPE html>
