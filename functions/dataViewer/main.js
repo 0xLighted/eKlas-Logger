@@ -17,10 +17,9 @@ export default ({ req, res, log, error }) => {
     <script src="bundle.js"></script>
     <script>
         renderApp({
-            endpoint: '${process.env.APPWRITE_FUNCTION_ENDPOINT}',
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
-            databaseId: '${process.env.DATABASE_ID}',
-            collectionId: '${process.env.COLLECTION_ID}'
+            databaseId: 'Logger',
+            collectionId: 'User'
         });
     </script>
 </body>

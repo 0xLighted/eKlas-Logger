@@ -11,7 +11,7 @@ export const App = ({ config }) => {
     // Database connection
     const client = new Client()
         .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID);
+        .setProject(config.projectId);
     const database = new Databases(client);
     
     // Fetch all data from database
