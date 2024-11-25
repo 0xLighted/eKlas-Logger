@@ -66,8 +66,25 @@ export default async ({ req, res, log, error }) => {
     </script>
 </body>
 </html>`;
-    
-    return res.text(html, 200, {
+
+    const test = `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <h1 id="fruit">bananas</h1>
+</body>
+</html>`
+
+    const doc = document.getElementById('fruit')
+    doc.innerHTML = 'apple'
+
+    return res.text(test, 200, {
         'Content-Type': 'text/html'
     })
 }
