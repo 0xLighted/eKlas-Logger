@@ -43,6 +43,19 @@ export default async ({ req, res, log, error }) => {
     // log(getFileStructure('.'));
     // log(fs.readFileSync('./src/function/dist/bundle.js', 'utf8'))
 
+    if (req.path == '/bundle.js') {
+        try {
+            const bundleContent = fs.readFileSync('./src/function/dist/bundle.js', 'utf8');
+            log(bundleContent)
+            return res.text(bundleContent, 200, {
+                'Content-Type': 'application/javascript'
+            });
+        } catch (err) {
+            error(err)
+            return res.text('Error loading bundle', 500);
+        }
+    }
+
     const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -54,8 +67,8 @@ export default async ({ req, res, log, error }) => {
 </head>
 <body>
     <div id="root"></div>
-    <script src="./src/function/dist/bundle.js"></script>
-    <script>
+    <script type="text/javascript" src="/bundle.js"></script>
+    <script type="text/javascript">
         renderApp({
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
             databaseId: 'Logger',
