@@ -1,9 +1,9 @@
+import * as fs from 'fs';
+import * as path from 'path';
 export default async ({ req, res, log, error }) => {
-    var fs = require('fs');
     // Handle bundle.js request
     if (req.path === 'dist/bundle.js') {
         try {
-            const path = require('path');
             const bundleContent = fs.readFileSync(path.join(__dirname, 'dist', 'bundle.js'), 'utf8');
             log('worked?')
             return res.text(bundleContent, 200, {
