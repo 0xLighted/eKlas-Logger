@@ -15,7 +15,7 @@ export default async ({ req, res, log, error }) => {
         }
     }
     var files = fs.readdirSync('/');
-    console.log(files)
+    log(files)
 
     const html = `
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ export default async ({ req, res, log, error }) => {
 </head>
 <body>
     <div id="root"></div>
-    <script src="dist/bundle.js"></script>
+    <script src="./dist/bundle.js"></script>
     <script>
         renderApp({
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
