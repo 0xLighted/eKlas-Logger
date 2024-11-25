@@ -1,4 +1,19 @@
-export default ({ req, res, log, error }) => {
+export default async ({ req, res, log, error }) => {
+    // Handle bundle.js request
+    if (req.path === '/bundle.js') {
+        try {
+            const fs = require('fs');
+            const path = require('path');
+            const bundleContent = fs.readFileSync(path.join(__dirname, 'dist', 'bundle.js'), 'utf8');
+            return res.send(bundleContent, 200, {
+                'Content-Type': 'application/javascript'
+            });
+        } catch (err) {
+            log(err);
+            return res.send('Error loading bundle', 500);
+        }
+    }
+    
     const html = `
 <!DOCTYPE html>
 <html lang="en">
