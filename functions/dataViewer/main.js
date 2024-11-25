@@ -43,7 +43,7 @@ export default async ({ req, res, log, error }) => {
     // log(getFileStructure('.'));
     // log(fs.readFileSync('./src/function/dist/bundle.js', 'utf8'))
 
-    if (req.path == '/bundle.js') {
+    if (req.path == '/reactBundle.js') {
         try {
             const bundleContent = fs.readFileSync('./src/function/dist/bundle.js', 'utf8');
             log(bundleContent)
@@ -67,7 +67,7 @@ export default async ({ req, res, log, error }) => {
 </head>
 <body>
     <div id="root"></div>
-    <script type="text/javascript" src="/bundle.js"></script>
+    <script type="text/javascript" src="/reactBundle.js"></script>
     <script type="text/javascript">
         renderApp({
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
