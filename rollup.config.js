@@ -9,16 +9,21 @@ export default {
     format: 'iife',
     name: 'App',
     globals: {
-      appwrite: 'Appwrite'  // Only keep appwrite as external
-    }
+      'react': 'React',
+      'react-dom': 'ReactDOM',
+      'appwrite': 'Appwrite'
+    },
+    // Ensure proper module wrapping
+    banner: '(function (React, ReactDOM, Appwrite) {',
+    footer: '})(window.React, window.ReactDOM, window.Appwrite);'
   },
-  external: ['appwrite'],  // Only keep appwrite as external
+  external: ['react', 'react-dom', 'appwrite'],
   plugins: [
     resolve({
       extensions: ['.js', '.jsx']
     }),
     commonjs({
-      include: /node_modules/  // Make sure to process node_modules
+      include: 'node_modules/**'
     }),
     babel({
       babelHelpers: 'bundled',
@@ -26,4 +31,4 @@ export default {
       extensions: ['.js', '.jsx']
     })
   ]
-}
+};
