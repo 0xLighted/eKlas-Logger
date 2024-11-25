@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Client, Databases } from 'appwrite';
-import { DataList } from './components/DataList.jsx';
+import { DataList } from './components/DataList';
 
 export const App = ({ config }) => {
     const [data, setData] = useState([]);

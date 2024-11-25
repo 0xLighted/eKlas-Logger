@@ -1,7 +1,3 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { App } from '../../web/app.jsx';
-
 export default ({ req, res, log, error }) => {
     if (req.method != 'GET' || req.path != '/') {
         error('Method not allowed: ' + req.method);
@@ -20,14 +16,12 @@ export default ({ req, res, log, error }) => {
     <div id="root"></div>
     <script src="bundle.js"></script>
     <script>
-        const container = document.getElementById('root');
-        const root = createRoot(container);
-        root.render(<App config={
+        renderApp({
             endpoint: '${process.env.APPWRITE_FUNCTION_ENDPOINT}',
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
             databaseId: '${process.env.DATABASE_ID}',
             collectionId: '${process.env.COLLECTION_ID}'
-        } />);
+        });
     </script>
 </body>
 </html>`;
