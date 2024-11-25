@@ -27,20 +27,7 @@ function getFileStructure(dirPath, prefix = '') {
 }
 
 export default async ({ req, res, log, error }) => {
-    // Handle bundle.js request
-    // if (req.path === '/dist/bundle.js') {
-    //     try {
-    //         const bundleContent = fs.readFileSync('./src/function/dist/bundle.js', 'utf8');
-    //         log(bundleContent)
-    //         return res.text(bundleContent, 200, {
-    //             'Content-Type': 'application/javascript'
-    //         });
-    //     } catch (err) {
-    //         error(err);
-    //         return res.text('Error loading bundle', 500);
-    //     }
-    // }
-    // log(getFileStructure('.'));
+    log(getFileStructure('.'));
     // log(fs.readFileSync('./src/function/dist/bundle.js', 'utf8'))
 
     if (req.path == '/reactBundle.js') {
