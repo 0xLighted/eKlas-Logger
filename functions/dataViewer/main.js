@@ -5,12 +5,13 @@ export default async ({ req, res, log, error }) => {
             const fs = require('fs');
             const path = require('path');
             const bundleContent = fs.readFileSync(path.join(__dirname, 'dist', 'bundle.js'), 'utf8');
-            return res.send(bundleContent, 200, {
+            log('worked?')
+            return res.text(bundleContent, 200, {
                 'Content-Type': 'application/javascript'
             });
         } catch (err) {
             log(err);
-            return res.send('Error loading bundle', 500);
+            return res.text('Error loading bundle', 500);
         }
     }
     
