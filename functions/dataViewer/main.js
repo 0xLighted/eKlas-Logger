@@ -28,20 +28,20 @@ function getFileStructure(dirPath, prefix = '') {
 
 export default async ({ req, res, log, error }) => {
     // Handle bundle.js request
-    if (req.path === '/dist/bundle.js') {
-        try {
-            const bundleContent = fs.readFileSync('./src/function/dist/bundle.js', 'utf8');
-            log(bundleContent)
-            return res.text(bundleContent, 200, {
-                'Content-Type': 'application/javascript'
-            });
-        } catch (err) {
-            error(err);
-            return res.text('Error loading bundle', 500);
-        }
-    }
+    // if (req.path === '/dist/bundle.js') {
+    //     try {
+    //         const bundleContent = fs.readFileSync('./src/function/dist/bundle.js', 'utf8');
+    //         log(bundleContent)
+    //         return res.text(bundleContent, 200, {
+    //             'Content-Type': 'application/javascript'
+    //         });
+    //     } catch (err) {
+    //         error(err);
+    //         return res.text('Error loading bundle', 500);
+    //     }
+    // }
     // log(getFileStructure('.'));
-    log(fs.readFileSync('./src/function/dist/bundle.js', 'utf8'))
+    // log(fs.readFileSync('./src/function/dist/bundle.js', 'utf8'))
 
     const html = `
 <!DOCTYPE html>
@@ -54,7 +54,7 @@ export default async ({ req, res, log, error }) => {
 </head>
 <body>
     <div id="root"></div>
-    <script src="./dist/bundle.js"></script>
+    <script src="./src/function/dist/bundle.js"></script>
     <script>
         renderApp({
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
