@@ -27,7 +27,7 @@ function getDeviceInfo() {
 
 
 async function storeData(device, user) {
-    const res = await fetch('https://673d53a375a6942d9bd2.appwrite.global/', {
+    const res = await fetch('https://674044df8c29e2e48bed.appwrite.global/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
