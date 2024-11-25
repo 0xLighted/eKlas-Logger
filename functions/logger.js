@@ -12,18 +12,7 @@ function validateBody(bodyJson) {
   return true
 }
 
-
-export default async ({ req, res, log, error }) => {
-  if (req.method != 'POST' || req.path != '/') {
-    error('Method not allowed: ' + req.method);
-    return res.json({success: false, message: "Method not allowed, Please send POST"});
-  }
-
-  if (!validateBody(req.bodyJson)) {
-    error('Invalid data object: ' + req.bodyText);
-    return res.json({success: false, message: "Invalid data object"});
-  }
-
+async function storeData({ req, res, log, error }) {
   // Appwrite project
   const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
@@ -106,6 +95,21 @@ export default async ({ req, res, log, error }) => {
     log(`User IP "${ipinfo['ip']}" successfully registered`);
     return res.json({success: true, message: `New user ${sanitizedMatric} added successfully`});
   }
+}
+
+export default async ({ req, res, log, error }) => {
+  if (req.method != 'POST' || req.path != '/') {
+    error('Method not allowed: ' + req.method);
+    return res.json({success: false, message: "Method not allowed, Please send POST"});
+  }
+
+  if (!validateBody(req.bodyJson)) {
+    error('Invalid data object: ' + req.bodyText);
+    return res.json({success: false, message: "Invalid data object"});
+  }
+
+  // Store data in databse
+  storeData({ req, res, log, error });
 };
 
 // TODO: ADD METHOD TO SEND DATA TO DISCORD TOO AS A NOTIFICATAION SYSTEM
