@@ -3,18 +3,27 @@ import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 
 export default {
-  input: 'functions/display.js',
+  input: 'web/app.jsx',
   output: {
     file: 'dist/bundle.js',
     format: 'iife',
-    name: 'App'
+    name: 'App',
+    globals: {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+      appwrite: 'Appwrite'
+    }
   },
+  external: ['react', 'react-dom', 'appwrite'],
   plugins: [
-    resolve(),
+    resolve({
+      extensions: ['.js', '.jsx']
+    }),
     commonjs(),
     babel({
       babelHelpers: 'bundled',
-      presets: ['@babel/preset-react']
+      presets: ['@babel/preset-react'],
+      extensions: ['.js', '.jsx']
     })
   ]
 };
