@@ -1,6 +1,6 @@
 export default async ({ req, res, log, error }) => {
     // Handle bundle.js request
-    if (req.path === '/bundle.js') {
+    if (req.path === 'dist/bundle.js') {
         try {
             const fs = require('fs');
             const path = require('path');
