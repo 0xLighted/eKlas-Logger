@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataItem } from './Item';
+import { DataItem } from './Item.jsx';
 
 export const DataList = ({ data }) => (
     <div className="grid gap-4">

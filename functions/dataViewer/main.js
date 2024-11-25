@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from '../../web/app';
+import { App } from '../../web/app.jsx';
 
 export default ({ req, res, log, error }) => {
     if (req.method != 'GET' || req.path != '/') {
