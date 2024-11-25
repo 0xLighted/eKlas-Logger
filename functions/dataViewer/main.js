@@ -40,7 +40,8 @@ export default async ({ req, res, log, error }) => {
             return res.text('Error loading bundle', 500);
         }
     }
-    log(getFileStructure('.'));
+    // log(getFileStructure('.'));
+    log(fs.readFileSync('./src/function/dist/bundle.js', 'utf8'))
 
     const html = `
 <!DOCTYPE html>
