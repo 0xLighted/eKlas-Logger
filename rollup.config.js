@@ -9,21 +9,21 @@ export default {
     format: 'iife',
     name: 'App',
     globals: {
-      react: 'React',
-      'react-dom': 'ReactDOM',
-      appwrite: 'Appwrite'
+      appwrite: 'Appwrite'  // Only keep appwrite as external
     }
   },
-  external: ['react', 'react-dom', 'appwrite'],
+  external: ['appwrite'],  // Only keep appwrite as external
   plugins: [
     resolve({
       extensions: ['.js', '.jsx']
     }),
-    commonjs(),
+    commonjs({
+      include: /node_modules/  // Make sure to process node_modules
+    }),
     babel({
       babelHelpers: 'bundled',
       presets: ['@babel/preset-react'],
       extensions: ['.js', '.jsx']
     })
   ]
-};
+}
