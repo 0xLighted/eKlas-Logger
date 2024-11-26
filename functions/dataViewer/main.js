@@ -54,7 +54,7 @@ export default async ({ req, res, log, error }) => {
 </head>
 <body>
     <div id="root"></div>
-    <script type="text/javascript" type="module" src="/reactBundle.js"></script>
+    <script type="module" src="/reactBundle.js"></script>
     <script type="text/javascript">
         renderApp({
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
