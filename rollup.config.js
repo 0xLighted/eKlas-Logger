@@ -8,9 +8,6 @@ export default {
     file: 'dist/bundle.js',
     format: 'es',
     name: 'App',
-    // Ensure proper module wrapping
-    // banner: '(function (React, ReactDOM, Appwrite) {',
-    // footer: '})(window.React, window.ReactDOM, window.Appwrite);'
   },
   plugins: [
     resolve({

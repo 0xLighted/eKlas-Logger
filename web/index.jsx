@@ -6,5 +6,5 @@ const renderApp = (config) => {
     const root = createRoot(container);
     root.render(<App config={config} />);
 };
-
+console.log("Render app in window context")
 window.renderApp = renderApp;
