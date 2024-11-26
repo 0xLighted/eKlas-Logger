@@ -54,9 +54,7 @@ export default async ({ req, res, log, error }) => {
 </head>
 <body>
     <div id="root"></div>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script type="text/javascript" src="/reactBundle.js"></script>
+    <script type="text/javascript" type="module" src="/reactBundle.js"></script>
     <script type="text/javascript">
         renderApp({
             projectId: '${process.env.APPWRITE_FUNCTION_PROJECT_ID}',
