@@ -67,7 +67,7 @@ export default async ({ req, res, log, error }) => {
 </body>
 </html>`;
 
-    return res.text(test, 200, {
+    return res.text(html, 200, {
         'Content-Type': 'text/html'
     })
 }
