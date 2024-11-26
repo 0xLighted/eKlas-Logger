@@ -6,18 +6,12 @@ export default {
   input: 'web/index.jsx',
   output: {
     file: 'dist/bundle.js',
-    format: 'iife',
+    format: 'es',
     name: 'App',
-    globals: {
-      'react': 'React',
-      'react-dom': 'ReactDOM',
-      'appwrite': 'Appwrite'
-    },
     // Ensure proper module wrapping
     banner: '(function (React, ReactDOM, Appwrite) {',
     footer: '})(window.React, window.ReactDOM, window.Appwrite);'
   },
-  external: ['react', 'react-dom', 'appwrite'],
   plugins: [
     resolve({
       extensions: ['.js', '.jsx']
