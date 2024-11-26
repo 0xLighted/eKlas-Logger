@@ -26,21 +26,26 @@ function getFileStructure(dirPath, prefix = '') {
     return structure;
 }
 
+function getFile(filename) {
+    try {
+        const bundleContent = fs.readFileSync(`./src/function/${filename}`, 'utf8');
+        return bundleContent
+    } catch (err) {
+        return false
+    }
+}
+
 export default async ({ req, res, log, error }) => {
     log(getFileStructure('.'));
     // log(fs.readFileSync('./src/function/dist/bundle.js', 'utf8'))
 
     if (req.path == '/reactBundle.js') {
-        try {
-            const bundleContent = fs.readFileSync('./src/function/dist/bundle.js', 'utf8');
-            log(bundleContent)
-            return res.text(bundleContent, 200, {
-                'Content-Type': 'application/javascript'
-            });
-        } catch (err) {
-            error(err)
-            return res.text('Error loading bundle', 500);
-        }
+        const res = getFile('dist/bundle.js')
+        
+        if (res) { return res.text(bundleContent, 200, {
+            'Content-Type': 'application/javascript'
+        }); } else { error(err)
+            return res.text('Error loading bundle', 500); }
     }
 
     const html = `
