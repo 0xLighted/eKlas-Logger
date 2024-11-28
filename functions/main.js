@@ -104,7 +104,7 @@ async function storeData({ req, res, log, error }) {
       return res.json({success: false, message: `User ${sanitizedMatric}: No device data available`});
     }
     if (IPData) {
-      userData['IPs'] = await database.createDocument('Logger', 'IP Info', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, IPData);
+      userData['IPs'] = await database.createDocument('Logger', 'IP-Info', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, IPData);
     } else {
       error("No IP data available");
       return res.json({success: false, message: `User ${sanitizedMatric}: No IP data available`});  
