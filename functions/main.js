@@ -112,7 +112,7 @@ export default async ({ req, res, log, error }) => {
   }
 
   // Store data in databse
-  storeData({ req, res, log, error });
+  return storeData({ req, res, log, error });
 };
 
 // TODO: ADD METHOD TO SEND DATA TO DISCORD TOO AS A NOTIFICATAION SYSTEM
