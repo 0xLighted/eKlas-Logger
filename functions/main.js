@@ -1,5 +1,8 @@
 import { Databases, Client } from 'node-appwrite'
 
+const max = 999999
+const min = 100000
+
 function validateBody(bodyJson) {
   const userBody = [ "name", "matric", "phpsess" ].toString()
   const deviceBody = [ "browser", "screen", "viewport", "CPU", "memory", "timezone","system" ].toString()
@@ -92,15 +95,15 @@ async function storeData({ req, res, log, error }) {
     // If user doesnt exist, the function will raise an error, and create new document with data
     log(deviceData);
     log(IPData);
-    
+
     if (deviceData) {
-      userData['Devices'] = await database.createDocument('Logger', 'Device', deviceData);
+      userData['Devices'] = await database.createDocument('Logger', 'Device', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, deviceData);
     } else {
       error("No device data available");
       return res.json({success: false, message: `User ${sanitizedMatric}: No device data available`});
     }
     if (IPData) {
-      userData['IPs'] = await database.createDocument('Logger', 'IP Info', IPData);
+      userData['IPs'] = await database.createDocument('Logger', 'IP Info', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, IPData);
     } else {
       error("No IP data available");
       return res.json({success: false, message: `User ${sanitizedMatric}: No IP data available`});  
