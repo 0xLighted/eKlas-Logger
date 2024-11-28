@@ -89,8 +89,9 @@ async function storeData({ req, res, log, error }) {
     return res.json({success: true, message: `User ${sanitizedMatric} updated successfully`});
 
   } catch(err) {
-    if (userData) {
+    if (userDoc) {
       error(`Something went wrong: ${err}`)
+      error(userDoc)
       error(userData)
       error(deviceData)
       error(IPData)
