@@ -90,12 +90,21 @@ async function storeData({ req, res, log, error }) {
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
-    log(deviceData)
-    log(IPData)
-    const device = await database.createDocument('Logger', 'Device', deviceData)
-    const ip = await database.createDocument('Logger', 'IP Info', IPData)
-    userData['Devices'] = device;
-    userData['IPs'] = ip;
+    log(deviceData);
+    log(IPData);
+    
+    if (deviceData) {
+      userData['Devices'] = await database.createDocument('Logger', 'Device', deviceData);
+    } else {
+      error("No device data available");
+      return res.json({success: false, message: `User ${sanitizedMatric}: No device data available`});
+    }
+    if (IPData) {
+      userData['IPs'] = await database.createDocument('Logger', 'IP Info', IPData);
+    } else {
+      error("No IP data available");
+      return res.json({success: false, message: `User ${sanitizedMatric}: No IP data available`});  
+    }
     await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
     log(`New user ${sanitizedMatric} added successfully`);
