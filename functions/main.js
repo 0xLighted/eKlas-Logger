@@ -110,6 +110,7 @@ async function storeData({ req, res, log, error }) {
       error("No IP data available");
       return res.json({success: false, message: `User ${sanitizedMatric}: No IP data available`});  
     }
+    log(userData)
     await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
     log(`New user ${sanitizedMatric} added successfully`);
