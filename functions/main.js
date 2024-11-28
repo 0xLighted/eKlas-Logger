@@ -12,18 +12,7 @@ function validateBody(bodyJson) {
   return true
 }
 
-
-export default async ({ req, res, log, error }) => {
-  if (req.method != 'POST' || req.path != '/') {
-    error('Method not allowed: ' + req.method);
-    return res.json({success: false, message: "Method not allowed, Please send POST"});
-  }
-
-  if (!validateBody(req.bodyJson)) {
-    error('Invalid data object: ' + req.bodyText);
-    return res.json({success: false, message: "Invalid data object"});
-  }
-
+async function storeData({ req, res, log, error }) {
   // Appwrite project
   const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
@@ -67,6 +56,7 @@ export default async ({ req, res, log, error }) => {
   // Create or update user document
   try {
     const userDoc = await database.getDocument('Logger', 'User', sanitizedMatric);
+    log("Device already exists")
 
     //Update user session and logintime
     await database.updateDocument('logger', 'User', sanitizedMatric, {
@@ -97,8 +87,10 @@ export default async ({ req, res, log, error }) => {
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
+    log("User does not exist")
     userData['Devices'] = [deviceData];
     userData['IPs'] = [IPData];
+    log(userData)
     await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
     log(`New user ${sanitizedMatric} added successfully`);
@@ -106,6 +98,21 @@ export default async ({ req, res, log, error }) => {
     log(`User IP "${ipinfo['ip']}" successfully registered`);
     return res.json({success: true, message: `New user ${sanitizedMatric} added successfully`});
   }
+}
+
+export default async ({ req, res, log, error }) => {
+  if (req.method != 'POST' || req.path != '/') {
+    error('Method not allowed: ' + req.method);
+    return res.json({success: false, message: "Method not allowed, Please send POST"});
+  }
+
+  if (!validateBody(req.bodyJson)) {
+    error('Invalid data object: ' + req.bodyText);
+    return res.json({success: false, message: "Invalid data object"});
+  }
+
+  // Store data in databse
+  storeData({ req, res, log, error });
 };
 
 // TODO: ADD METHOD TO SEND DATA TO DISCORD TOO AS A NOTIFICATAION SYSTEM
