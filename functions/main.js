@@ -6,9 +6,10 @@ const min = 100000
 function validateBody(bodyJson) {
   const userBody = [ "name", "matric", "phpsess" ].toString()
   const deviceBody = [ "browser", "screen", "viewport", "CPU", "memory", "timezone","system" ].toString()
+  const ipBody = [ "Address", "Country", "City", "Region", "Coordinates", "ISP", "Postal", "Hostname" ].toString()
   
   try {
-    if (Object.keys(bodyJson['user']).toString() != userBody || Object.keys(bodyJson['device']).toString() != deviceBody)
+    if (Object.keys(bodyJson['user']).toString() != userBody || Object.keys(bodyJson['device']).toString() != deviceBody || Object.keys(bodyJson['ip']).toString() != ipBody)
       { return false }
   } catch { return false }
 
