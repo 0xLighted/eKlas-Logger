@@ -89,14 +89,6 @@ async function storeData({ req, res, log, error }) {
     return res.json({success: true, message: `User ${sanitizedMatric} updated successfully`});
 
   } catch(err) {
-    if (userDoc) {
-      error(`Something went wrong: ${err}`)
-      error(userDoc)
-      error(userData)
-      error(deviceData)
-      error(IPData)
-      return res.json({success: false, message: `Something went wrong: ${err}`})
-    }
     // If user doesnt exist, the function will raise an error, and create new document with data
     userData['Devices'] = [deviceData];
     userData['IPs'] = [IPData];
