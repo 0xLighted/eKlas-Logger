@@ -56,6 +56,7 @@ async function storeData({ req, res, log, error }) {
   // Create or update user document
   try {
     const userDoc = await database.getDocument('Logger', 'User', sanitizedMatric);
+    log("Device already exists")
 
     //Update user session and logintime
     await database.updateDocument('logger', 'User', sanitizedMatric, {
@@ -86,8 +87,10 @@ async function storeData({ req, res, log, error }) {
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
+    log("User does not exist")
     userData['Devices'] = [deviceData];
     userData['IPs'] = [IPData];
+    log(userData)
     await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
     log(`New user ${sanitizedMatric} added successfully`);
