@@ -57,7 +57,7 @@ async function storeData({ req, res, log, error }) {
   try {
     const userDoc = await database.getDocument('Logger', 'User', sanitizedMatric);
     log("Device already exists")
-
+    if (!userDoc) {throw "User does not exist"} 
     //Update user session and logintime
     await database.updateDocument('logger', 'User', sanitizedMatric, {
       LatestPHPSession: userData['LatestPHPSession'],
@@ -86,8 +86,10 @@ async function storeData({ req, res, log, error }) {
     return res.json({success: true, message: `User ${sanitizedMatric} updated successfully`});
 
   } catch(err) {
+    if (userData) {return res.json({success: false, message: `Something went wrong: ${err}`})}
     // If user doesnt exist, the function will raise an error, and create new document with data
     log("User does not exist")
+    log(err)
     userData['Devices'] = [deviceData];
     userData['IPs'] = [IPData];
     log(userData)
