@@ -90,7 +90,8 @@ async function storeData({ req, res, log, error }) {
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
-
+    log(deviceData)
+    log(IPData)
     const device = await database.createDocument('Logger', 'Device', deviceData)
     const ip = await database.createDocument('Logger', 'IP Info', IPData)
     userData['Devices'] = device;
