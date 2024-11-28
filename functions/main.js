@@ -54,7 +54,8 @@ async function storeData({ req, res, log, error }) {
     ISP: ipinfo['org'],
     Postal: ipinfo['postal'],
     Hostname: ipinfo['hostname']
-  } 
+  }
+  log(ipinfo)
   
   // Create or update user document
   try {
@@ -97,13 +98,13 @@ async function storeData({ req, res, log, error }) {
     log(IPData);
     log(`${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`)
 
-    if (deviceData) {
+    if (deviceData != {}) {
       userData['Devices'] = await database.createDocument('Logger', 'Device', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, deviceData);
     } else {
       error("No device data available");
       return res.json({success: false, message: `User ${sanitizedMatric}: No device data available`});
     }
-    if (IPData) {
+    if (IPData != {}) {
       userData['IPs'] = await database.createDocument('Logger', 'IP-Info', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, IPData);
     } else {
       error("No IP data available");
