@@ -28,6 +28,8 @@ async function storeData({ req, res, log, error }) {
     .trim()
     .replaceAll(' ', '_')
     .slice(0, 36);
+  
+    req.bodyJson['user']['Name'] = req.bodyJson['user']['Name'].trim()
 
   const userData = req.bodyJson['user']
   const deviceData = req.bodyJson['device']
@@ -56,7 +58,7 @@ async function storeData({ req, res, log, error }) {
     } else { log(`Device "${deviceData['System']}" already registered`); }
 
     // Check if IP already registered, if not append new IP to user document
-    if (userDoc['IPs'].filter(ip => ip['Address'] === IPData['ip']).length == 0) {
+    if (userDoc['IPs'].filter(ip => ip['Address'] === IPData['Address']).length == 0) {
       await database.updateDocument('logger', 'User', sanitizedMatric, {
         IPs: [...userDoc['IPs'], IPData]
       });
@@ -69,22 +71,25 @@ async function storeData({ req, res, log, error }) {
 
   } catch(err) {
     // If user doesnt exist, the function will raise an error, and create new document with data
-    log(deviceData);
-    log(IPData);
 
     if (deviceData != {}) {
       userData['Devices'] = await database.createDocument('Logger', 'Device', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, deviceData);
+      log(`Stored new device: ${deviceData['System']}, for ${sanitizedMatric}`)
     } else {
       error("No device data available");
       return res.json({success: false, message: `User ${sanitizedMatric}: No device data available`});
     }
     if (IPData != {}) {
       userData['IPs'] = await database.createDocument('Logger', 'IP-Info', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, IPData);
+      log(`Stored new IP: ${IPData['Address']}, for ${sanitizedMatric}`)
     } else {
       error("No IP data available");
       return res.json({success: false, message: `User ${sanitizedMatric}: No IP data available`});  
     }
+
     log(userData)
+    log(deviceData);
+    log(IPData);
     await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
     log(`New user ${sanitizedMatric} added successfully`);
