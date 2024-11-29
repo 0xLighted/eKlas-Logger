@@ -4,8 +4,8 @@ const max = 999999
 const min = 100000
 
 function validateBody(bodyJson) {
-  const userBody = [ "name", "matric", "phpsess" ].toString()
-  const deviceBody = [ "browser", "screen", "viewport", "CPU", "memory", "timezone","system" ].toString()
+  const userBody = [ "Matric", "Name", "LatestPHPSession" ].toString()
+  const deviceBody = [ "Browser", "Screen", "Viewport", "CPU", "RAM", "Timezone","System" ].toString()
   const ipBody = [ "Address", "Country", "City", "Region", "Coordinates", "ISP", "Postal", "Hostname" ].toString()
   
   try {
@@ -24,38 +24,14 @@ async function storeData({ req, res, log, error }) {
     
   const database = new Databases(client);
   
-  // Grab user IP and IP details
-  const clientIP = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'].split(',')[0] : req.socket.remoteAddress;
-  const ipinfo = (await (await fetch(`https://ipinfo.io/${clientIP}/json`)).json());
   const sanitizedMatric = req.bodyJson['user']['matric']
     .trim()
     .replaceAll(' ', '_')
     .slice(0, 36);
 
-  const userData = {
-    Matric: req.bodyJson['user']['matric'],
-    Name: req.bodyJson['user']['name'],
-    LatestPHPSession: req.bodyJson['user']['phpsess'],
-  }
-  const deviceData = {
-    System: req.bodyJson['device']['system'],
-    Browser: req.bodyJson['device']['browser'],
-    Screen: req.bodyJson['device']['screen'],
-    Viewport: req.bodyJson['device']['viewport'],
-    CPU: req.bodyJson['device']['CPU'],
-    RAM: req.bodyJson['device']['memory'],
-    Timezone: req.bodyJson['device']['timezone'],
-  }
-  const IPData = {
-    Address: ipinfo['ip'],
-    Country: ipinfo['country'],
-    City: ipinfo['city'],
-    Region: ipinfo['region'],
-    Coordinates: ipinfo['loc'],
-    ISP: ipinfo['org'],
-    Postal: ipinfo['postal'],
-    Hostname: ipinfo['hostname']
-  }
+  const userData = req.bodyJson['user']
+  const deviceData = req.bodyJson['device']
+  const IPData = req.bodyJson['ip']
   log(ipinfo)
   
   // Create or update user document
@@ -69,7 +45,6 @@ async function storeData({ req, res, log, error }) {
     //Update user session and logintime
     await database.updateDocument('logger', 'User', sanitizedMatric, {
       LatestPHPSession: userData['LatestPHPSession'],
-      LatestLogin: userData['LatestLogin']
     });
 
     // Check if Device already registered, if not append new Device to user document
