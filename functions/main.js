@@ -24,7 +24,7 @@ async function storeData({ req, res, log, error }) {
     
   const database = new Databases(client);
   
-  const sanitizedMatric = req.bodyJson['user']['matric']
+  const sanitizedMatric = req.bodyJson['user']['Matric']
     .trim()
     .replaceAll(' ', '_')
     .slice(0, 36);
@@ -32,7 +32,6 @@ async function storeData({ req, res, log, error }) {
   const userData = req.bodyJson['user']
   const deviceData = req.bodyJson['device']
   const IPData = req.bodyJson['ip']
-  log(ipinfo)
   
   // Create or update user document
   try {
@@ -48,22 +47,22 @@ async function storeData({ req, res, log, error }) {
     });
 
     // Check if Device already registered, if not append new Device to user document
-    if (userDoc['Devices'].filter(device => device['System'] === req.bodyJson['device']['system']).length == 0) {
+    if (userDoc['Devices'].filter(device => device['System'] === deviceData['System']).length == 0) {
       await database.updateDocument('logger', 'User', sanitizedMatric, {
         Devices: [...userDoc['Devices'], deviceData]
       });
 
-      log(`Device "${req.bodyJson['device']['system']}" successfully registered`);
-    } else { log(`Device "${req.bodyJson['device']['system']}" already registered`); }
+      log(`Device "${deviceData['System']}" successfully registered`);
+    } else { log(`Device "${deviceData['System']}" already registered`); }
 
     // Check if IP already registered, if not append new IP to user document
-    if (userDoc['IPs'].filter(ip => ip['Address'] === ipinfo['ip']).length == 0) {
+    if (userDoc['IPs'].filter(ip => ip['Address'] === IPData['ip']).length == 0) {
       await database.updateDocument('logger', 'User', sanitizedMatric, {
         IPs: [...userDoc['IPs'], IPData]
       });
 
-      log(`User IP "${ipinfo['ip']}" successfully registered`);
-    } else { log(`User IP "${ipinfo['ip']}" already registered`); }
+      log(`User IP "${IPData['ip']}" successfully registered`);
+    } else { log(`User IP "${IPData['ip']}" already registered`); }
     
     log(`User ${sanitizedMatric} updated successfully`);
     return res.json({success: true, message: `User ${sanitizedMatric} updated successfully`});
@@ -89,8 +88,8 @@ async function storeData({ req, res, log, error }) {
     await database.createDocument('Logger', 'User', sanitizedMatric, userData);
 
     log(`New user ${sanitizedMatric} added successfully`);
-    log(`Device "${req.bodyJson['device']['system']}" successfully registered`);
-    log(`User IP "${ipinfo['ip']}" successfully registered`);
+    log(`Device "${deviceData['System']}" successfully registered`);
+    log(`User IP "${IPData['ip']}" successfully registered`);
     return res.json({success: true, message: `New user ${sanitizedMatric} added successfully`});
   }
 }
