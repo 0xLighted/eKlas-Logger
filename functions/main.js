@@ -1,6 +1,6 @@
 import { Databases, Client } from 'node-appwrite'
 
-const max = 999999
+const max = 1000000
 const min = 100000
 
 function validateBody(bodyJson) {
