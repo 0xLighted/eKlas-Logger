@@ -27,10 +27,10 @@ async function GetIPInfo() {
 function GetUserDetails() {
   var e = {
     Matric: document.querySelector(".user-role")
-      ? document.querySelector(".user-role").textContent
+      ? document.querySelector(".user-role").textContent.trim()
       : "Unavailable",
     Name: document.querySelector(".user-name")
-      ? document.querySelector(".user-name").textContent
+      ? document.querySelector(".user-name").textContent.trim()
       : "Unavailable",
   };
   document.cookie.split(";").forEach((t) => {

@@ -27,8 +27,6 @@ async function storeData({ req, res, log, error }) {
     .trim()
     .replaceAll(' ', '_')
     .slice(0, 36);
-  
-    req.bodyJson['user']['Name'] = req.bodyJson['user']['Name'].trim()
 
   const userData = req.bodyJson['user']
   const deviceData = req.bodyJson['device']
