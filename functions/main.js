@@ -72,7 +72,6 @@ async function storeData({ req, res, log, error }) {
     // If user doesnt exist, the function will raise an error, and create new document with data
     log(deviceData);
     log(IPData);
-    log(`${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`)
 
     if (deviceData != {}) {
       userData['Devices'] = await database.createDocument('Logger', 'Device', `${sanitizedMatric}_${Math.floor(Math.random() * (max - min + 1) + min)}`, deviceData);
