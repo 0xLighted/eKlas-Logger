@@ -38,7 +38,7 @@ async function storeData({ req, res, log, error }) {
   try {
     const userDoc = await database.getDocument('Logger', 'User', sanitizedMatric);
     if (!userDoc) {
-      error(`User ${sanitizedMatric} already exists`)  
+      error(`User ${sanitizedMatric} does not exist`)  
       throw "User does not exist"
     } 
 
